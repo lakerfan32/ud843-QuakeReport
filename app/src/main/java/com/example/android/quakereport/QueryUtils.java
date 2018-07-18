@@ -56,19 +56,33 @@ public final class QueryUtils {
             JSONArray earthquakeArray = baseJsonResponse.getJSONArray("features");
 
             // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
-            for(int i = 0; i<earthquakeArray.length(); i++) {
+            for(int i = 0; i < earthquakeArray.length(); i++) {
+
+                // Get a single earthquake at position 1 within the list of earthquakes
                 JSONObject currentEarthquake = earthquakeArray.getJSONObject(i);
+
+                // For a given earthquake, extract the JSONObject associated with the
+                // key called "properties", which represents a list of all properties
+                // for that earthquake.
                 JSONObject properties = currentEarthquake.getJSONObject("properties");
 
                 // Extract the value for the key called "mag"
                 double magnitude = properties.getDouble("mag");
 
+                // Extract the value for the key called "place"
                 String location = properties.getString("place");
 
                 // Extract the value for the key called "time"
                 long time = properties.getLong("time");
 
-                Earthquake earthquake = new Earthquake(magnitude, location, time);
+                // Extract the value for the key called "url"
+                String url = properties.getString("url");
+
+                // Create a new {@link Earthquake} object with the magnitude, location, time,
+                // and url from the JSON response.
+                Earthquake earthquake = new Earthquake(magnitude, location, time, url);
+
+                // Add the new {@link Earthquake} to the list of earthquakes.
                 earthquakes.add(earthquake);
             }
 
